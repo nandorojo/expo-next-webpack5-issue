@@ -69,9 +69,10 @@ TypeError: Cannot read property 'replace' of undefined
 
 </details>
 
-# Run
+# Run this example
 
 `yarn install`
+
 `yarn next`
 
 ## How to reproduce this
