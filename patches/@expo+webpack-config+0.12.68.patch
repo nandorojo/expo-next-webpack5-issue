@@ -1,0 +1,38 @@
+diff --git a/node_modules/@expo/webpack-config/webpack/addons/withUnimodules.js b/node_modules/@expo/webpack-config/webpack/addons/withUnimodules.js
+index 67671c7..4f66d77 100644
+--- a/node_modules/@expo/webpack-config/webpack/addons/withUnimodules.js
++++ b/node_modules/@expo/webpack-config/webpack/addons/withUnimodules.js
+@@ -132,15 +132,26 @@ function ignoreExternalModules(webpackConfig, shouldIncludeModule) {
+     if (!Array.isArray(webpackConfig.externals)) {
+         webpackConfig.externals = [webpackConfig.externals];
+     }
+-    webpackConfig.externals = webpackConfig.externals.map(external => {
++    webpackConfig.externals = webpackConfig.externals.map((external) => {
+         if (typeof external !== 'function') { 
+-            return external;
++          return external
+         }
+-        return ((ctx, req, cb) => {
+-            const relPath = path_1.default.join('node_modules', req);
+-            return shouldIncludeModule(relPath) ? cb() : external(ctx, req, cb);
+-        });
+-    });
++        return (...args) => {
++          const [arg1, arg2, arg3] = args
++          let request = arg2
++          let callback = arg3
++          // in case of webpack 5
++          if (arg1 && arg1.context && arg1.request) {
++            request = arg1.request
++            callback = arg2
++          } 
++          const relPath = path_1.default.join('node_modules', request)
++          const willInclude = shouldIncludeModule(relPath)
++       
++          // this works, if you don't import react-native
++          return willInclude ? callback(null) : external(...args);
++        }
++      });
+     return webpackConfig;
+ }
+ exports.ignoreExternalModules = ignoreExternalModules;
