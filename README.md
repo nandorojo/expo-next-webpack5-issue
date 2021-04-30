@@ -69,9 +69,10 @@ TypeError: Cannot read property 'replace' of undefined
 
 </details>
 
-# Run
+# Run this example
 
 `yarn install`
+
 `yarn next`
 
 ## How to reproduce this
@@ -229,3 +230,5 @@ TypeError: Cannot read property 'replace' of undefined
     at /workspaces/expo-next-monorepo/node_modules/next/dist/compiled/webpack/bundle5.js:54969:3
     at _done (eval at create (/workspaces/expo-next-monorepo/node_modules/next/dist/compiled/webpack/bundle5.js:28712:10), <anonymous>:9:1)
 ```
+
+It looks like the issue arises with this line: https://github.com/vercel/next.js/blob/9c47ca2cfd8d0494562dee92791a2195f9655bdc/packages/next/build/webpack/plugins/pages-manifest-plugin.ts#L55
