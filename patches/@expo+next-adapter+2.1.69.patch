@@ -1,0 +1,16 @@
+diff --git a/node_modules/@expo/next-adapter/build/withExpo.js b/node_modules/@expo/next-adapter/build/withExpo.js
+index 2e63eb4..93093b6 100644
+--- a/node_modules/@expo/next-adapter/build/withExpo.js
++++ b/node_modules/@expo/next-adapter/build/withExpo.js
+@@ -6,9 +6,10 @@ function withExpo(nextConfig = {}) {
+     return Object.assign(Object.assign({}, nextConfig), { pageExtensions: paths_1.getBareExtensions(['web']), webpack(config, options) {
+             // Prevent define plugin from overwriting Next.js environment.
+             process.env.EXPO_WEBPACK_DEFINE_ENVIRONMENT_AS_KEYS = 'true';
++            const { webpack5 = false } = (options.config || {}).future || {}
+             const expoConfig = addons_1.withUnimodules(config, {
+                 projectRoot: nextConfig.projectRoot || process.cwd(),
+-            }, { supportsFontLoading: false });
++            }, { supportsFontLoading: false, webpack5 });
+             // Use original public path
+             (expoConfig.output || {}).publicPath = (config.output || {}).publicPath;
+             // TODO: Bacon: use commonjs for RNW babel maybe...
